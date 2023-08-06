@@ -124,7 +124,7 @@ public abstract class RenderSectionManagerMixin {
         if (options.performance.useFogOcclusion && MathHelper.approximatelyEquals(RenderSystem.getShaderFogColor()[3], 1.0f)) {
             maxVertexDistance = this.getEffectiveRenderDistanceDouble();
         } else if (RenderSystem.getShaderFogColor()[3] == 0.0f) {
-            maxVertexDistance = Double.MAX_VALUE;
+            maxVertexDistance = Math.max(this.renderDistance * 16.0D, 24 * 16.0D);  // Extend the render distance when Sodium Extra disables the fog
         } else {
             maxVertexDistance = this.renderDistance * 16.0D;
         }
