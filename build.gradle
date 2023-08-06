@@ -20,11 +20,11 @@ repositories {
 loom {
     splitEnvironmentSourceSets()
 	mods {
-		"sodium-ao-slider" {
+		"unofficial-sodium-culling-patch" {
 			sourceSet sourceSets.main
 		}
 	}
-	accessWidenerPath = file("src/main/resources/sodium-ao-slider.accesswidener")
+	accessWidenerPath = file("src/main/resources/unofficial-sodium-culling-patch.accesswidener")
 }
 
 dependencies {

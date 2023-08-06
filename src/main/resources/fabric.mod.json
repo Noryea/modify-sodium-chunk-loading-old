@@ -1,20 +1,20 @@
 {
 	"schemaVersion": 1,
-	"id": "sodium-ao-slider",
+	"id": "unofficial-sodium-culling-patch",
 	"version": "${version}",
-	"name": "Sodium AO Slider",
-	"description": "Adds a slider to adjust the intensity of Ambient Occlusion to Sodium.",
+	"name": "Unofficial Sodium Culling Patch",
+	"description": "Backport 0.5.1 features that reduce the amount of loading chunk.",
 	"authors": [
 		"Noryea"
 	],
 	"contact": {
-		"sources": "https://github.com/Noryea/sodium-ao-slider"
+		"sources": "https://github.com/Noryea/unofficial-sodium-culling-patch"
 	},
 	"license": "LGPL-3.0",
 	"environment": "client",
-	"accessWidener": "sodium-ao-slider.accesswidener",
+	"accessWidener": "unofficial-sodium-culling-patch.accesswidener",
 	"mixins": [
-		"sodium-ao-slider.mixins.json"
+		"unofficial-sodium-culling-patch.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.12.0",
