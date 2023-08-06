@@ -123,8 +123,6 @@ public abstract class RenderSectionManagerMixin {
         // The fog must be fully opaque in order to skip rendering of chunks behind it
         if (options.performance.useFogOcclusion && MathHelper.approximatelyEquals(RenderSystem.getShaderFogColor()[3], 1.0f)) {
             maxVertexDistance = this.getEffectiveRenderDistanceDouble();
-        } else if (RenderSystem.getShaderFogColor()[3] == 0.0f) {
-            maxVertexDistance = Math.max(this.renderDistance * 16.0D, 24 * 16.0D);  // Extend the render distance when Sodium Extra disables the fog
         } else {
             maxVertexDistance = this.renderDistance * 16.0D;
         }
@@ -177,7 +175,7 @@ public abstract class RenderSectionManagerMixin {
     }
     @Unique
     private double getEffectiveRenderDistanceDouble() {
-        float distance = RenderSystem.getShaderFogEnd();
+        var distance = RenderSystem.getShaderFogEnd();
         return Math.max(16.0D, distance);
     }
 }
