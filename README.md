@@ -1,9 +1,7 @@
-# Fabric Example Mod
+# Unofficial Sodium Culling Patch
+Steal the latest code from [Sodium's dev branch](https://github.com/CaffeineMC/sodium-fabric/tree/dev) to reduce the number of loaded chunk.
 
-## Setup
-
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
-
-## License
-
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+# Compatible with:
+- iris shader
+- sodium extra
+- indium
