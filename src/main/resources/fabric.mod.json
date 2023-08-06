@@ -1,0 +1,25 @@
+{
+	"schemaVersion": 1,
+	"id": "sodium-ao-slider",
+	"version": "${version}",
+	"name": "Sodium AO Slider",
+	"description": "Adds a slider to adjust the intensity of Ambient Occlusion to Sodium.",
+	"authors": [
+		"Noryea"
+	],
+	"contact": {
+		"sources": "https://github.com/Noryea/sodium-ao-slider"
+	},
+	"license": "LGPL-3.0",
+	"environment": "client",
+	"accessWidener": "sodium-ao-slider.accesswidener",
+	"mixins": [
+		"sodium-ao-slider.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.12.0",
+		"minecraft": "1.20.1",
+		"java": ">=17",
+		"sodium": "0.5.0"
+	}
+}
