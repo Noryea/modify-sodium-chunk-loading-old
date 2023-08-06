@@ -120,8 +120,11 @@ public abstract class RenderSectionManagerMixin {
 
         double maxVertexDistance;
 
-        if (options.performance.useFogOcclusion) {
+        // The fog must be fully opaque in order to skip rendering of chunks behind it
+        if (options.performance.useFogOcclusion && MathHelper.approximatelyEquals(RenderSystem.getShaderFogColor()[3], 1.0f)) {
             maxVertexDistance = this.getEffectiveRenderDistanceDouble();
+        } else if (RenderSystem.getShaderFogColor()[3] == 0.0f) {
+            maxVertexDistance = Double.MAX_VALUE;
         } else {
             maxVertexDistance = this.renderDistance * 16.0D;
         }
@@ -174,14 +177,7 @@ public abstract class RenderSectionManagerMixin {
     }
     @Unique
     private double getEffectiveRenderDistanceDouble() {
-        var color = RenderSystem.getShaderFogColor();
-        var distance = RenderSystem.getShaderFogEnd();
-
-        // The fog must be fully opaque in order to skip rendering of chunks behind it
-        if (!MathHelper.approximatelyEquals(color[3], 1.0f)) {
-            return this.renderDistance * 16.0D;
-        }
-
+        float distance = RenderSystem.getShaderFogEnd();
         return Math.max(16.0D, distance);
     }
 }
