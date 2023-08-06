@@ -168,8 +168,9 @@ public abstract class RenderSectionManagerMixin {
         double distanceY = origin.y - (section.getOriginY() + 8 + offsetY);
         double distanceZ = origin.z - (section.getOriginZ() + 8 + offsetZ);
 
-        // squared distance: (x^2)+(y^2)+(z^2)
-        return (distanceX * distanceX) + (distanceY * distanceY) + (distanceZ * distanceZ);
+        // vanilla's "cylindrical fog" algorithm
+        // max(length(distance.xz), abs(distance.y))
+        return Math.max((distanceX * distanceX) + (distanceZ * distanceZ), distanceY * distanceY);
     }
     @Unique
     private double getEffectiveRenderDistanceDouble() {
