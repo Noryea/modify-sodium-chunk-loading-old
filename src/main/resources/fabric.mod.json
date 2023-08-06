@@ -10,7 +10,6 @@
 	"contact": {
 		"sources": "https://github.com/Noryea/unofficial-sodium-culling-patch"
 	},
-	"license": "CC0-1.0",
 	"environment": "client",
 	"accessWidener": "unofficial-sodium-culling-patch.accesswidener",
 	"mixins": [
