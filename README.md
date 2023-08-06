@@ -3,6 +3,7 @@ A mod stealing the latest codes from [Sodium's dev branch](https://github.com/Ca
 
 Note: The optimization provided by this mod will be included in 0.5.1 in the future(mc1.20.2). Hence the mod is already archieved and will no longer update.
 
+Sodium is required!
 # Tested with:
 - sodium
 - iris shader
