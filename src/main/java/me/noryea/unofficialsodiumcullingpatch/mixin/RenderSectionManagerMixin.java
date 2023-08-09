@@ -81,7 +81,7 @@ public abstract class RenderSectionManagerMixin {
             RenderSection section = this.iterationQueue.remove();
 
             if (this.centerChunkX != section.getChunkX() || this.centerChunkY != section.getChunkY() || this.centerChunkZ != section.getChunkZ()) {
-                var vertexDistance = this.getClosestVertexDistanceToCamera(camera.getPos(), section);
+                var vertexDistance = this.getClosestVertexHorizonDistanceToCamera(camera.getPos(), section);
 
                 if (vertexDistance > this.maxVertexDistanceSquared || this.isOutsideViewport(section, viewport)) {
                     continue;
@@ -113,21 +113,12 @@ public abstract class RenderSectionManagerMixin {
     @Unique
     private void newInitSearch(Camera camera, Viewport viewport, int frame, boolean spectator) {
         this.iterationQueue.clear();
-
         this.currentFrame = frame;
-
         var options = SodiumClientMod.options();
 
-        double maxVertexDistance;
+        double maxVertexDistance = getEffectiveRenderDistanceDouble();
+        this.effectiveRenderDistance = Math.min(MathHelper.ceil(maxVertexDistance / 16.0F), this.renderDistance);
 
-        // The fog must be fully opaque in order to skip rendering of chunks behind it
-        if (options.performance.useFogOcclusion && MathHelper.approximatelyEquals(RenderSystem.getShaderFogColor()[3], 1.0f)) {
-            maxVertexDistance = this.getEffectiveRenderDistanceDouble();
-        } else {
-            maxVertexDistance = this.renderDistance * 16.0D;
-        }
-
-        this.effectiveRenderDistance = Math.min(MathHelper.ceil(maxVertexDistance / 16.0D), this.renderDistance);
         this.maxVertexDistanceSquared = maxVertexDistance * maxVertexDistance;
 
         this.useBlockFaceCulling = options.performance.useBlockFaceCulling;
@@ -144,11 +135,14 @@ public abstract class RenderSectionManagerMixin {
         this.centerChunkY = origin.getY() >> 4;
         this.centerChunkZ = origin.getZ() >> 4;
 
-        if (this.centerChunkY < this.world.getBottomSectionCoord()) {
+        if (this.centerChunkY < this.world.getBottomSectionCoord())
+        {
             this.initSearchFallback(viewport, origin, this.centerChunkX, this.world.getBottomSectionCoord(), this.centerChunkZ, 1 << GraphDirection.DOWN);
-        } else if (this.centerChunkY >= this.world.getTopSectionCoord()) {
+        }
+        else if (this.centerChunkY >= this.world.getTopSectionCoord()) {
             this.initSearchFallback(viewport, origin, this.centerChunkX, this.world.getTopSectionCoord() - 1, this.centerChunkZ, 1 << GraphDirection.UP);
-        } else {
+        }
+        else {
             var node = this.getRenderSection(this.centerChunkX, this.centerChunkY, this.centerChunkZ);
 
             if (node != null) {
@@ -158,7 +152,8 @@ public abstract class RenderSectionManagerMixin {
     }
 
     @Unique
-    private double getClosestVertexDistanceToCamera(Vec3d origin, RenderSection section) {
+    // aggressive distance culling
+    private double getClosestVertexHorizonDistanceToCamera(Vec3d origin, RenderSection section) {
         // the offset of the vertex from the center of the chunk
         int offsetX = Integer.signum(this.centerChunkX - section.getChunkX()) * 8; // (chunk.x > center.x) ? -8 : +8
         int offsetY = Integer.signum(this.centerChunkY - section.getChunkY()) * 8; // (chunk.y > center.y) ? -8 : +8
@@ -169,13 +164,31 @@ public abstract class RenderSectionManagerMixin {
         double distanceY = origin.y - (section.getOriginY() + 8 + offsetY);
         double distanceZ = origin.z - (section.getOriginZ() + 8 + offsetZ);
 
-        // vanilla's "cylindrical fog" algorithm
-        // max(length(distance.xz), abs(distance.y))
-        return Math.max((distanceX * distanceX) + (distanceZ * distanceZ), distanceY * distanceY);
+        // cylindrical
+        if (SodiumClientMod.options().performance.useFogOcclusion &&
+                MathHelper.approximatelyEquals(RenderSystem.getShaderFogColor()[3], 1.0f)/* &&
+                RenderSystem.getShaderFogEnd() <= this.renderDistance * 16.0D */) {
+            return Math.max((distanceX * distanceX) + (distanceZ * distanceZ), distanceY * distanceY);
+        } else {
+            return (distanceX * distanceX) + (distanceZ * distanceZ);
+        }
     }
     @Unique
     private double getEffectiveRenderDistanceDouble() {
-        var distance = RenderSystem.getShaderFogEnd();
+        double fogEnd = RenderSystem.getShaderFogEnd();
+        double viewDistance = this.renderDistance * 16.0D;
+
+        double distance;
+        // The fog must be fully opaque in order to skip rendering of chunks behind it
+        if (SodiumClientMod.options().performance.useFogOcclusion &&
+                MathHelper.approximatelyEquals(RenderSystem.getShaderFogColor()[3], 1.0f) &&
+                fogEnd < viewDistance)
+        {
+            distance = fogEnd;
+        } else {
+            distance = viewDistance;
+        }
+
         return Math.max(16.0D, distance);
     }
 }
