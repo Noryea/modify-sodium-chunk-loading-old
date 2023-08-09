@@ -1,14 +1,21 @@
 # Unofficial Sodium Culling Patch
-A mod stealing the latest codes from [Sodium's dev branch](https://github.com/CaffeineMC/sodium-fabric/tree/dev). These codes can reduce the amount of chunks loaded by Sodium and improve the fps significantly, so they deserve to be backported as a patch and made to be compatible with iris, indium, sodium-extra, etc.
+- Requires Sodium to Run!
 
-Note: The optimization provided by this mod will be included in 0.5.1 in the future(mc1.20.2). Hence the mod is already archieved and will no longer update.
+This is a mod that steals the codes from [Sodium's dev branch](https://github.com/CaffeineMC/sodium-fabric/tree/dev). These codes implement __a more aggressive distance culling__ which reduces the amount of chunks loaded and improves the fps significantly, so they deserve to be backported as a patch of Sodium and made to be compatible with other mods.
 
-Sodium is required!
-# Tested with:
-- sodium
-- iris shader
-- indium
-- sodium extra
-- more culling
+__Note:__ The optimization provided by this mod will be included in future 0.5.1. Hence the mod has been archieved and will no longer update. If you like, you can fork this mod for yourself.
 
-If you already got an ideal performance improvement with Sodium 0.5.0, this mod will further increase the framerate; if you found that the performance of Sodium 0.5.0 is worse than that of 0.4.x in some cases, then this mod is expected to fix it (not guaranteed).
+## More Details
+When the fog is _OFF_, you'll see fewer chunks than before, which is intentionally different from how it works in Sodium 0.5.0 & future 0.5.1, so it's __NOT__ a Sodium side bug. 
+
+Technically, you should see no difference when the fog is _ON_.
+
+## Tested with:
+- Sodium
+- Iris Shader
+- Indium
+- Sodium Extra
+- More Culling
+- ...other mods that work with Sodium 0.5
+
+
