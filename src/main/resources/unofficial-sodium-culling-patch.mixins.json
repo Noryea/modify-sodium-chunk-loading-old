@@ -1,12 +1,13 @@
 {
-	"required": true,
-	"package": "me.noryea.unofficialsodiumcullingpatch.mixin",
-	"compatibilityLevel": "JAVA_17",
-	"minVersion": "0.8",
-	"injectors": {
-		"defaultRequire": 1
-	},
-	"client": [
-		"RenderSectionManagerMixin"
-	]
+  "required": true,
+  "package": "me.noryea.unofficialsodiumcullingpatch.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "minVersion": "0.8",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "RenderSectionManagerMixin",
+    "VisibilityEncodingMixin"
+    ]
 }

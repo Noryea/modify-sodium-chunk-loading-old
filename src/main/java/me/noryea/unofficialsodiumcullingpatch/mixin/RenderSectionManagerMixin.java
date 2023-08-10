@@ -173,6 +173,7 @@ public abstract class RenderSectionManagerMixin {
             return (distanceX * distanceX) + (distanceZ * distanceZ);
         }
     }
+
     @Unique
     private double getEffectiveRenderDistanceDouble() {
         double fogEnd = RenderSystem.getShaderFogEnd();
