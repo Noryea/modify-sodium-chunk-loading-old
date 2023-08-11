@@ -1,16 +1,11 @@
 # Unofficial Sodium Culling Patch
 - Requires Sodium to Run!
 
-This is a mod that steals the codes from [Sodium's dev branch](https://github.com/CaffeineMC/sodium-fabric/tree/dev). These codes implement __a more aggressive distance culling__ which reduces the amount of loaded chunks and improves the fps significantly, so they deserve to be backported as a patch of Sodium and made to be compatible with other mods.
+This is a mod that makes fewer chunks to be loaded in Sodium. The mod mainly implements it by these 2 ways:
+- Stealing the codes from [Sodium's dev branch](https://github.com/CaffeineMC/sodium-fabric/tree/dev) to use __a more aggressive distance culling__, which reduces the amount of loaded chunks and improves the fps significantly. The new culling system will be included in Sodium 0.5.1, by the way.
+- "Reverting" [commit 8a8aad0d](https://github.com/CaffeineMC/sodium-fabric/commit/8a8aad0df3ec36d5246d6a2a6efc1d34a7e092b1). In face of fewer visual errors and higher fps, I choose the latter.
 
-__Notice:__ The optimization provided by this mod will be included in future 0.5.1. Hence the mod has been archieved and will no longer update. If you like, you can fork this mod for yourself.
-
-## Even More Important Notice:
-After installing this mod, you should see no difference when the fog is _ON_.
-
-But when the fog is _OFF_, you'll find that fewer chunks are loaded than before, which is _intentionally_ different from how it works in Sodium 0.5.0 & future 0.5.1. It's __NOT__ a Sodium side bug. 
-
-## Tested with:
+## Compatible with:
 - Sodium
 - Iris Shader
 - Indium
