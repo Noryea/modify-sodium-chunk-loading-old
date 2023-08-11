@@ -60,9 +60,6 @@ public abstract class RenderSectionManagerMixin {
     protected abstract RenderSection getRenderSection(int x, int y, int z);
 
     @Shadow(remap = false)
-    protected abstract void searchNeighbors(RenderSection section, int outgoing);
-
-    @Shadow(remap = false)
     protected abstract void initSearchFallback(Viewport viewport, BlockPos origin, int chunkX, int chunkY, int chunkZ, int directions);
 
     @Shadow(remap = false)
@@ -75,7 +72,7 @@ public abstract class RenderSectionManagerMixin {
      */
     @Overwrite(remap = false)
     private void searchChunks(SortedRenderListBuilder renderListBuilder, Camera camera, Viewport viewport, int frame, boolean spectator) {
-        this.newInitSearch(camera, viewport, frame, spectator);
+        this.modifiedInitSearch(camera, viewport, frame);
 
         while (!this.iterationQueue.isEmpty()) {
             RenderSection section = this.iterationQueue.remove();
@@ -105,13 +102,13 @@ public abstract class RenderSectionManagerMixin {
             connections &= this.getOutwardDirections(section.getChunkX(), section.getChunkY(), section.getChunkZ());
 
             if (connections != GraphDirection.NONE) {
-                this.searchNeighbors(section, connections);
+                this.modifiedSearchNeighbors(section, connections);
             }
         }
     }
 
     @Unique
-    private void newInitSearch(Camera camera, Viewport viewport, int frame, boolean spectator) {
+    private void modifiedInitSearch(Camera camera, Viewport viewport, int frame) {
         this.iterationQueue.clear();
         this.currentFrame = frame;
         var options = SodiumClientMod.options();
@@ -125,7 +122,7 @@ public abstract class RenderSectionManagerMixin {
 
         BlockPos origin = camera.getBlockPos();
 
-        if (spectator && this.world.getBlockState(origin).isOpaqueFullCube(this.world, origin)) {
+        if (/* spectator &&*/ this.world.getBlockState(origin).isOpaqueFullCube(this.world, origin)) {
             this.useOcclusionCulling = false;
         } else {
             this.useOcclusionCulling = MinecraftClient.getInstance().chunkCullingEnabled;
@@ -149,6 +146,20 @@ public abstract class RenderSectionManagerMixin {
                 this.bfsEnqueue(node, GraphDirection.ALL);
             }
         }
+    }
+
+    @Unique
+    private void modifiedSearchNeighbors(RenderSection section, int outgoing) {
+        for(int direction = 0; direction < 6; ++direction) {
+            if ((outgoing & 1 << direction) != 0) {
+                RenderSection adj = section.getAdjacent(direction);
+                if (adj != null) {
+                    this.bfsEnqueue(adj, 1 << GraphDirection.opposite(direction));
+                    adj.setIncomingDirections(1 << GraphDirection.opposite(direction));
+                }
+            }
+        }
+
     }
 
     @Unique
