@@ -192,7 +192,7 @@ public abstract class RenderSectionManagerMixin {
 
         // The fog must be fully opaque in order to skip rendering of chunks behind it
         if (!MathHelper.approximatelyEquals(color[3], 1.0f)) {
-            return this.renderDistance;
+            return this.renderDistance * 16.0D;
         }
 
         return Math.max(16.0D, distance);
