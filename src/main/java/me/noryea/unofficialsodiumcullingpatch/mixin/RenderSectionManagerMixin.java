@@ -72,7 +72,7 @@ public abstract class RenderSectionManagerMixin {
      */
     @Overwrite(remap = false)
     private void searchChunks(SortedRenderListBuilder renderListBuilder, Camera camera, Viewport viewport, int frame, boolean spectator) {
-        this.modifiedInitSearch(camera, viewport, frame);
+        this.modifiedInitSearch(camera, viewport, frame, spectator);
 
         while (!this.iterationQueue.isEmpty()) {
             RenderSection section = this.iterationQueue.remove();
@@ -108,7 +108,7 @@ public abstract class RenderSectionManagerMixin {
     }
 
     @Unique
-    private void modifiedInitSearch(Camera camera, Viewport viewport, int frame) {
+    private void modifiedInitSearch(Camera camera, Viewport viewport, int frame, boolean spectator) {
         this.iterationQueue.clear();
         this.currentFrame = frame;
         var options = SodiumClientMod.options();
@@ -122,7 +122,7 @@ public abstract class RenderSectionManagerMixin {
 
         BlockPos origin = camera.getBlockPos();
 
-        if (/* spectator &&*/ this.world.getBlockState(origin).isOpaqueFullCube(this.world, origin)) {
+        if (spectator && this.world.getBlockState(origin).isOpaqueFullCube(this.world, origin)) {
             this.useOcclusionCulling = false;
         } else {
             this.useOcclusionCulling = MinecraftClient.getInstance().chunkCullingEnabled;
