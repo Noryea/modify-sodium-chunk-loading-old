@@ -3,7 +3,7 @@
 	"id": "unofficial-sodium-culling-patch",
 	"version": "${version}",
 	"name": "Unofficial Sodium Culling Patch",
-	"description": "Backport 0.5.1 features that reduce the amount of loading chunk.",
+	"description": "Load fewer chunks in Sodium 0.5",
 	"authors": [
 		"Noryea"
 	],
@@ -19,6 +19,6 @@
 		"fabricloader": ">=0.12.0",
 		"minecraft": "1.20.1",
 		"java": ">=17",
-		"sodium": "\\u003e\\u003d0.5.0"
+		"sodium": "0.5.0"
 	}
 }
