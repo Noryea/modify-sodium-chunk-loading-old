@@ -1,5 +1,5 @@
 # Unofficial Sodium Culling Patch
-- Requires Sodium to Run!
+__Requires Sodium to Run!__
 
 This is a mod that makes fewer chunks to be loaded in Sodium. The mod mainly implements it by these 2 ways:
 - Stealing the codes from [Sodium's dev branch](https://github.com/CaffeineMC/sodium-fabric/tree/dev) to use __a more aggressive distance culling__, which reduces the amount of loaded chunks and improves the fps significantly. The new culling system will be included in Sodium 0.5.1, by the way.
